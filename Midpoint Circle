@@ -1,0 +1,73 @@
+// https://cs.lmu.edu/~ray/notes/openglexamples/
+
+#include "./freeglut-3.2.1/include/GL/freeglut.h"
+#include <GL/glut.h>
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+float r; // radius of circle
+float x0; // x coordinate of center
+float y3; // y coordinate of center
+
+
+
+void display(void) {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glLineWidth(1.0);
+	glBegin(GL_POINTS);
+	glColor3f(1, 0, 0);
+
+  float x = 0;
+  float y = r;
+  float p = 1-r;
+
+
+  while(x!=y) {
+    float y0=y3;
+    glVertex2f(x+x0,y+y0);
+    glVertex2f(x+x0,-y+y0);
+    glVertex2f(-x+x0,y+y0);
+    glVertex2f(-x+x0,-y+y0);
+    glVertex2f(y+x0,x+y0);
+    glVertex2f(-y+x0,x+y0);
+    glVertex2f(y+x0,-x+y0);
+    glVertex2f(-y+x0,-x+y0);
+    x = x+1;
+    if(p>=0){
+      p = p + 2*x-2*y+5;
+      y=y-1;
+    }
+    else{
+      p = p +2*x+3;
+    }
+    
+  }    
+  glEnd();
+	glFlush();
+}
+
+void myInit(void) {
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
+	glMatrixMode(GL_PROJECTION);
+	gluOrtho2D(0.0, 400.0, 0.0, 400.0);
+}
+
+int main(int argc, char **argv) {
+  cout << "Enter the radius of the circle: ";
+	cin >> r;
+  cout<<"Enter x0: ";
+  cin>>x0;
+  cout<<"Enter y0: ";
+  cin>>y3;
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(400, 400);
+	glutInitWindowPosition(500, 100);
+	glutCreateWindow("Line Algorithms");
+	
+	glutDisplayFunc(display);
+	myInit();
+	glutMainLoop();
+}
